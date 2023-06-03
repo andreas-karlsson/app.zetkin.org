@@ -19,7 +19,7 @@ import { DialogContent as CreateTaskDialogContent } from 'zui/ZUISpeedDial/actio
 import deleteCampaign from 'features/campaigns/fetching/deleteCampaign';
 import patchCampaign from 'features/campaigns/fetching/patchCampaign';
 import useModel from 'core/useModel';
-import { ZetkinCampaign } from 'utils/types/zetkin';
+import { ZetkinCampaign, ZetkinSmartSearchFilter } from 'utils/types/zetkin';
 import ZUIButtonMenu from 'zui/ZUIButtonMenu';
 import { ZUIConfirmDialogContext } from 'zui/ZUIConfirmDialogProvider';
 import ZUIDialog from 'zui/ZUIDialog';
@@ -29,6 +29,11 @@ import { Msg, useMessages } from 'core/i18n';
 
 import EventDataModel from 'features/events/models/EventDataModel';
 import messageIds from '../l10n/messageIds';
+import {
+  CallHistoryFilterConfig,
+  CALL_OPERATOR,
+  FILTER_TYPE,
+} from 'features/smartSearch/components/types';
 
 enum CAMPAIGN_MENU_ITEMS {
   EDIT_CAMPAIGN = 'editCampaign',
@@ -105,12 +110,19 @@ const CampaignActionButtons: React.FunctionComponent<
     });
   };
   const handleCreateCallAssignment = () => {
-    const assignment = {
-      goal_filters: [],
+    const defaultGoalFilter: ZetkinSmartSearchFilter<CallHistoryFilterConfig> =
+      {
+        type: FILTER_TYPE.CALL_HISTORY,
+        config: {
+          operator: CALL_OPERATOR.REACHED,
+          assignment: '$self',
+        },
+      };
+    model.createCallAssignment({
+      goal_filters: [defaultGoalFilter],
       target_filters: [],
       title: messages.form.createCallAssignment.newCallAssignment(),
-    };
-    model.createCallAssignment(assignment);
+    });
   };
   const handleCreateSurvey = () => {
     model.createSurvey({

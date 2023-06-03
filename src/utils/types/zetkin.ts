@@ -209,8 +209,11 @@ export interface ZetkinCallAssignment {
 }
 
 export type ZetkinCallAssignmentPostBody = Partial<
-  Omit<ZetkinCallAssignment, 'organization'>
->;
+  Omit<ZetkinCallAssignment, 'organization' | 'goal' | 'target' | 'campaign'>
+> & {
+  goal_filters: ZetkinSmartSearchFilter[],
+  target_filters: ZetkinSmartSearchFilter[],
+};
 
 export interface ZetkinSurvey {
   title: string;
@@ -312,13 +315,13 @@ export interface ZetkinSurveyOption {
 
 type ZetkinSurveyQuestionResponse =
   | {
-      question_id: number;
-      response: string;
-    }
+    question_id: number;
+    response: string;
+  }
   | {
-      options: number[];
-      question_id: number;
-    };
+    options: number[];
+    question_id: number;
+  };
 
 export interface ZetkinSurveySubmission {
   id: number;

@@ -97,17 +97,17 @@ export type DefaultFilterConfig = Record<string, never>; // Default filter confi
 
 export interface CallBlockedFilterConfig {
   reason:
-    | 'allocated'
-    | 'organizer_action_needed'
-    | 'call_back_after'
-    | 'cooldown'
-    | 'no_number'
-    | 'any';
+  | 'allocated'
+  | 'organizer_action_needed'
+  | 'call_back_after'
+  | 'cooldown'
+  | 'no_number'
+  | 'any';
 }
 
 export interface CallHistoryFilterConfig {
   operator: CALL_OPERATOR;
-  assignment?: number;
+  assignment?: number | '$self';
   minTimes?: number;
   before?: string;
   after?: string;
